@@ -22,7 +22,7 @@ export default function Login() {
   // 🔥 BACKEND CONNECT FUNCTION
   const sendAlert = async () => {
     try {
-      const res = await fetch(" https://women-safety-app-5cw6.onrender.com/api/alerts", {
+      const res = await fetch("https://womensaftey-app.netlify.app/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

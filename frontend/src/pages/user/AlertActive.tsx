@@ -29,7 +29,7 @@ export default function AlertActive() {
 
     try {
       // ✅ 1. Backend call
-      const res = await fetch(" https://women-safety-app-5cw6.onrender.com/api/alerts/cancel", {
+      const res = await fetch("https://womensaftey-app.netlify.app/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
