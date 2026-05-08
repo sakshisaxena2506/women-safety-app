@@ -29,7 +29,7 @@ export default function AlertActive() {
 
     try {
       // ✅ 1. Backend call
-      const res = await fetch("http://localhost:5000/api/alerts/cancel", {
+      const res = await fetch("https://symphonious-alfajores-d42759.netlify.app/api/alerts/cancel", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

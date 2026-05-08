@@ -22,7 +22,7 @@ export default function Login() {
   // 🔥 BACKEND CONNECT FUNCTION
   const sendAlert = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/alerts", {
+      const res = await fetch("https://symphonious-alfajores-d42759.netlify.app/api/alerts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
