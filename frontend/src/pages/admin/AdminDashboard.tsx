@@ -7,8 +7,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend
 } from 'recharts';
-import AdminSidebar from '../../components/AdminSidebar';
-import { supabase } from '../../lib/supabase';
+ import { supabase } from '../../lib/supabase';
 
 const alertData = [
   { day: 'Mon', alerts: 12, resolved: 10 },
@@ -62,7 +61,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <AdminSidebar />
+       
       <div className="lg:ml-64">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 lg:pt-8">
           <div className="mb-8">

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { AlertTriangle, Clock, CheckCircle, X, MapPin, Filter } from 'lucide-react';
-import AdminSidebar from '../../components/AdminSidebar';
 import { supabase, SosAlert } from '../../lib/supabase';
 import toast from 'react-hot-toast';
 
@@ -54,7 +53,7 @@ export default function AdminAlerts() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <AdminSidebar />
+     
       <div className="lg:ml-64">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 lg:pt-8">
           <div className="mb-8">
