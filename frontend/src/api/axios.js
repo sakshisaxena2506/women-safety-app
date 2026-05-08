@@ -4,7 +4,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://symphonious-alfajores-d42759.netlify.app/'
+  baseURL: ' https://women-safety-app-5cw6.onrender.com'
 });
 
 // Attach token to every request automatically
