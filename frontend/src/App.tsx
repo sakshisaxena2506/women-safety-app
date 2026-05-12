@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Public pages
-import Landing from './pages/Landing';
+import Landing from './pages/landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
