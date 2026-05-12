@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Public pages
-import Landing from './pages/landing';
+import Landing from './pages/Landing'; 
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -20,8 +20,9 @@ import VolunteerDashboard from './pages/volunteer/VolunteerDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminVolunteers from './pages/admin/AdminVolunteers';
-import AdminAlerts from './pages/admin/AdminAlerts';
 import AdminReports from './pages/admin/AdminReports';
+
+const AdminAlerts = () => <div>Admin Alerts</div>;
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
       <BrowserRouter>
         <Toaster
           position="top-right"
+          
           toastOptions={{
             duration: 3500,
             style: {
