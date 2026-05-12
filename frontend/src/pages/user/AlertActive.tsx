@@ -1,5 +1,6 @@
- import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Shield, Phone, MapPin, X, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
@@ -23,95 +24,126 @@ export default function AlertActive() {
     return `${m}:${sec.toString().padStart(2, '0')}`;
   };
 
-  // 🚨 CANCEL ALERT (FINAL FIXED)
   const cancelAlert = async () => {
     setLoading(true);
-
     try {
-      // ✅ 1. Backend call
-      const res = await fetch("https://womensaftey-app.netlify.app/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      const data = await res.json();
-      console.log("Cancel Response:", data);
-
-      // ❗ Check response
-      if (!res.ok) {
-        throw new Error(data.message || "Cancel failed");
-      }
-
-      // ✅ 2. Supabase update (optional but correct)
       if (user) {
         const { error } = await supabase
           .from('sos_alerts')
           .update({
             status: 'cancelled',
-            resolved_at: new Date().toISOString()
+            resolved_at: new Date().toISOString(),
           })
           .eq('user_id', user.id)
           .eq('status', 'active');
 
-        if (error) {
-          console.log("Supabase error:", error.message);
-        }
+        if (error) throw error;
       }
 
-      // ✅ 3. UI update
-      toast.success("✅ Alert Cancelled");
+      toast.success('Alert cancelled. Stay safe!');
       setShowCancelModal(false);
-
-      // 🔥 IMPORTANT FIX
-      navigate("/");   // ya "/user/dashboard"
-
+      navigate('/user/dashboard');
     } catch (err) {
       console.error(err);
-      toast.error("❌ Error cancelling alert");
+      toast.error('Error cancelling alert. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-red-800 flex flex-col items-center justify-center text-white gap-6">
+    <div className="min-h-screen bg-gradient-to-br from-red-700 via-red-800 to-red-900 flex flex-col items-center justify-center p-6 text-white">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <Shield className="w-8 h-8 text-white" />
+        </div>
+        <h1 className="text-3xl font-black mb-1">🚨 SOS Active</h1>
+        <p className="text-red-200 text-sm">Alert sent — help is on the way</p>
+      </div>
 
-      <h1 className="text-3xl font-bold">🚨 SOS Active</h1>
-      <p className="text-lg">Time: {formatTime(elapsed)}</p>
+      {/* Timer */}
+      <div className="bg-white/10 backdrop-blur rounded-3xl px-10 py-6 text-center mb-8 border border-white/20">
+        <p className="text-red-200 text-xs font-semibold uppercase tracking-widest mb-2">Time Elapsed</p>
+        <p className="text-5xl font-black tabular-nums">{formatTime(elapsed)}</p>
+      </div>
+
+      {/* Status cards */}
+      <div className="grid grid-cols-3 gap-3 w-full max-w-sm mb-8">
+        {[
+          { icon: Shield, label: 'Alert Sent', done: true },
+          { icon: MapPin, label: 'Location Shared', done: true },
+          { icon: Phone, label: 'Contacts Notified', done: true },
+        ].map(({ icon: Icon, label, done }) => (
+          <div key={label} className="bg-white/10 rounded-2xl p-3 text-center border border-white/20">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto mb-2 ${done ? 'bg-green-500' : 'bg-white/20'}`}>
+              {done ? <CheckCircle className="w-4 h-4 text-white" /> : <Icon className="w-4 h-4 text-white/60" />}
+            </div>
+            <p className="text-xs font-semibold text-white/80 leading-tight">{label}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Quick call buttons */}
+      <div className="w-full max-w-sm space-y-2 mb-8">
+        <p className="text-red-200 text-xs font-semibold uppercase tracking-widest text-center mb-3">Quick Dial</p>
+        {[
+          { label: 'Police', number: '100', color: 'bg-blue-600 hover:bg-blue-700' },
+          { label: 'Women Helpline', number: '1091', color: 'bg-pink-600 hover:bg-pink-700' },
+          { label: 'Ambulance', number: '108', color: 'bg-green-600 hover:bg-green-700' },
+        ].map(({ label, number, color }) => (
+          <a
+            key={number}
+            href={`tel:${number}`}
+            className={`flex items-center justify-between w-full px-5 py-3 rounded-2xl text-white font-semibold transition-all ${color}`}
+          >
+            <span className="flex items-center gap-2">
+              <Phone className="w-4 h-4" /> {label}
+            </span>
+            <span className="font-black">{number}</span>
+          </a>
+        ))}
+      </div>
 
       <button
         onClick={() => setShowCancelModal(true)}
-        className="bg-white text-red-600 px-6 py-3 rounded-xl font-bold"
+        className="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3 rounded-2xl transition-all"
       >
+        <X className="w-4 h-4" />
         Cancel Alert
       </button>
 
-      {/* 🔥 MODAL */}
+      {/* Cancel confirmation modal */}
       {showCancelModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
-          <div className="bg-white text-black p-6 rounded-xl text-center">
-
-            <h2 className="text-xl font-bold mb-4">Are you safe?</h2>
-
-            <div className="flex gap-4 justify-center">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl">
+            <div className="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <Shield className="w-7 h-7 text-red-600" />
+            </div>
+            <h2 className="text-xl font-black text-gray-900 mb-2">Are you safe?</h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Only cancel this alert if you are no longer in danger.
+            </p>
+            <div className="flex gap-3">
               <button
                 onClick={() => setShowCancelModal(false)}
-                className="border px-4 py-2 rounded"
+                className="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
               >
-                No
+                No, Keep Alert
               </button>
-
               <button
                 onClick={cancelAlert}
                 disabled={loading}
-                className="bg-red-600 text-white px-4 py-2 rounded"
+                className="flex-1 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white font-semibold transition-colors"
               >
-                {loading ? "Cancelling..." : "Yes, Cancel"}
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Cancelling...
+                  </span>
+                ) : "Yes, I'm Safe"}
               </button>
             </div>
-
           </div>
         </div>
       )}

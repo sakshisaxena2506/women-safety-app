@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Download, FileText, BarChart2, Users, AlertTriangle, Calendar, CheckCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import toast from 'react-hot-toast';
+import AdminSidebar from '../../components/adminsidebar';
 
 const monthlyData = [
   { month: 'Nov', alerts: 45, resolved: 40, volunteers: 12 },
@@ -43,7 +44,7 @@ export default function AdminReports() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-       
+      <AdminSidebar />
       <div className="lg:ml-64">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-16 lg:pt-8">
           <div className="flex items-center justify-between mb-8">
