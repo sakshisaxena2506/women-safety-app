@@ -4,9 +4,9 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Public pages
-import Landing from './pages/Landing.tsx';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 // User pages
 import UserDashboard from './pages/user/UserDashboard';
