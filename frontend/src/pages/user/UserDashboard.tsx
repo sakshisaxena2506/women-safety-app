@@ -50,11 +50,12 @@ export default function UserDashboard() {
   const handleSOS = async () => {
     if (!user) return;
     try {
-      const { error } = await supabase.from('sos_alerts').insert({
-        user_id: user.id,
-        status: 'active',
-        urgency_level: 'critical',
-      });
+     const { error } = await supabase.from('sos_alerts').insert({
+      user_id: user.id,
+      status: 'active',
+      urgency_level: 'critical',
+      created_at: new Date().toISOString(),
+     });
       if (error) throw error;
       toast.success('SOS Alert Sent! Help is on the way.');
       navigate('/user/alert-active');
