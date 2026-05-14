@@ -4,6 +4,7 @@ import { Shield, Phone, MapPin, X, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../context/AuthContext';
+import LiveMap from '../../components/LiveMap';
 
 export default function AlertActive() {
   const { user } = useAuth();
@@ -12,11 +13,23 @@ export default function AlertActive() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState({
+  latitude: 28.6139,
+  longitude: 77.2090,
+  }); 
 
   useEffect(() => {
     const timer = setInterval(() => setElapsed(e => e + 1), 1000);
     return () => clearInterval(timer);
   }, []);
+  useEffect(() => {
+  navigator.geolocation.getCurrentPosition((position) => {
+    setLocation({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    });
+  });
+}, []);
 
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60);
@@ -112,6 +125,12 @@ export default function AlertActive() {
           </a>
         ))}
       </div>
+      <div className="w-full max-w-2xl mb-8 rounded-2xl overflow-hidden">
+      <LiveMap
+       latitude={location.latitude}
+       longitude={location.longitude}
+       />
+     </div>
 
       <button
         onClick={() => setShowCancelModal(true)}
