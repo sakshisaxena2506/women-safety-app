@@ -52,12 +52,13 @@ export default function Register() {
       if (!data.user) throw new Error('Registration failed');
 
       // Create profile
-      const { error: profileError } = await supabase.from('profiles').insert({
-        id: data.user.id,
-        full_name: form.fullName,
-        phone: form.phone,
-        role: form.role,
-      });
+       const { error: profileError } = await supabase.from('profiles').insert({
+       id: data.user.id,
+      full_name: form.fullName,
+      email: form.email,
+      phone: form.phone,
+      role: form.role,
+    });
       if (profileError) throw profileError;
 
       // Create volunteer profile if needed
