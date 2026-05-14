@@ -4,7 +4,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://womensaftey-app.netlify.app/register'
+  baseURL: 'https://women-safety-app-tpw6.onrender.com'
 });
 
 // Attach token to every request automatically
