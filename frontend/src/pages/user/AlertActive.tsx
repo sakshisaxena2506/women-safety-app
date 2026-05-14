@@ -24,32 +24,40 @@ export default function AlertActive() {
     return `${m}:${sec.toString().padStart(2, '0')}`;
   };
 
-  const cancelAlert = async () => {
-    setLoading(true);
-    try {
-      if (user) {
-        const { error } = await supabase
-          .from('sos_alerts')
-          .update({
-            status: 'cancelled',
-            resolved_at: new Date().toISOString(),
-          })
-          .eq('user_id', user.id)
-          .eq('status', 'active');
+   const cancelAlert = async () => {
+  setLoading(true);
 
-        if (error) throw error;
-      }
+  try {
+    if (!user) return;
 
-      toast.success('Alert cancelled. Stay safe!');
-      setShowCancelModal(false);
-      navigate('/user/dashboard');
-    } catch (err) {
-      console.error(err);
-      toast.error('Error cancelling alert. Please try again.');
-    } finally {
-      setLoading(false);
+    const { data, error } = await supabase
+      .from('sos_alerts')
+      .update({
+        status: 'cancelled'
+      })
+      .eq('user_id', user.id)
+      .eq('status', 'active')
+      .select();
+
+    console.log(data);
+
+    if (error) {
+      console.error(error);
+      throw error;
     }
-  };
+
+    toast.success('Alert cancelled successfully!');
+    setShowCancelModal(false);
+
+    navigate('/user/dashboard');
+
+  } catch (err) {
+    console.error(err);
+    toast.error('Failed to cancel alert');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-700 via-red-800 to-red-900 flex flex-col items-center justify-center p-6 text-white">
