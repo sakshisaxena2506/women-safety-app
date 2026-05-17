@@ -75,6 +75,11 @@ export default function App() {
             </ProtectedRoute>
           } />
           <Route path="/volunteer/alerts" element={
+            <ProtectedRoute allowedRoles={['volunteer']}>
+              <VolunteerAlerts />
+            </ProtectedRoute>
+          } />
+
           {/* Admin */}
           <Route path="/admin/dashboard" element={
             <ProtectedRoute allowedRoles={['admin']}>
