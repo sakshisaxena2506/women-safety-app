@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import VolunteerAlerts from './pages/volunteer/VolunteerAlerts';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Public pages
@@ -73,7 +74,7 @@ export default function App() {
               <VolunteerDashboard />
             </ProtectedRoute>
           } />
-
+          <Route path="/volunteer/alerts" element={
           {/* Admin */}
           <Route path="/admin/dashboard" element={
             <ProtectedRoute allowedRoles={['admin']}>
